@@ -3,7 +3,8 @@
   "name": "demophila",
   "version": "1.0",
   "icons": {
-    "48": "icon48.png"
+    "48": "icon48.png",
+    "128": "icon128.png"
   },
   "description": "Fill form fields with random data",
   "action": {
