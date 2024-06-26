@@ -1,0 +1,23 @@
+name: Create Zip File
+
+on:
+  push:
+    tags: '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create Zip File
+        run: |
+          zip -r demophila.zip $(git ls-files)
+
+      - name: Upload Zip File
+        uses: actions/upload-artifact@v4
+        with:
+          name: demophila.zip
+          path: demophila.zip
