@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <style>
+      body {
+        width: 300px;
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-family: sans-serif;
+      }
+      input {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      button {
+        width: 200px;
+        height: 40px;
+        border-radius: 4px;
+        border: none;
+        background-color: #007bff;
+        font-size: 16px;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <button id="run">Generate</button>
+    </div>
+    <code id="progress"></code>
+    <details>
+      <summary>Settings</summary>
+      <input type="password" id="openai-api-key" placeholder="OpenAI API Key">
+      <input type="text" id="email-domain" value="example.com">
+    </details>
+    <script src="popup.js">
+    </script>
+  </body>
+</html>
