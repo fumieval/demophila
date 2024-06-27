@@ -1,5 +1,11 @@
 {
   "manifest_version": 3,
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "demophila@extensions.hask.moe",
+      "strict_min_version": "120.0"
+    }
+  },
   "name": "demophila",
   "version": "1.0",
   "icons": {
