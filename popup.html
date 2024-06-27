@@ -23,6 +23,9 @@
         font-size: 16px;
         color: white;
       }
+      button[aria-busy="true"] {
+        background-color: #6c757d;
+      }
       details {
         width: 100%;
         margin-top: 10px;
@@ -34,11 +37,9 @@
       <button id="run">Generate</button>
     </div>
     <code id="progress"></code>
-    <details>
-      <summary>Settings</summary>
-      <label for="openai-api-key">OpenAI API Key</label>
-      <input type="password" id="openai-api-key" placeholder="OpenAI API Key">
-    </details>
+    <code id="error"></code>
+    <label for="openai-api-key">OpenAI API Key</label>
+    <input type="password" id="openai-api-key" placeholder="OpenAI API Key">
     <script src="popup.js">
     </script>
   </body>

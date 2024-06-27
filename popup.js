@@ -15,7 +15,7 @@ bindElementToLocalStorage(
 );
 
 document.querySelector("#run").addEventListener("click", async (e) => {
-  e.target.disabled = true;
+  e.target.ariaBusy = true;
   browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     const openaiApiKey = localStorage.getItem("openai-api-key");
     browser.tabs.sendMessage(tabs[0].id, {
@@ -27,6 +27,14 @@ document.querySelector("#run").addEventListener("click", async (e) => {
 
 browser.runtime.onMessage.addListener((message) => {
   if (message.action === "fillDataResponse") {
-    document.querySelector("#progress").innerText = message.json;
+    if (message.data) {
+      document.querySelector("#progress").innerText = message.data;
+    }
+    if (message.error) {
+      document.querySelector("#error").innerText = message.error;
+    }
+    if (message.done) {
+      document.querySelector("#run").ariaBusy = false;
+    }
   }
 });

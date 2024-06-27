@@ -97,6 +97,10 @@ ${Object.entries(inputs)
 
   console.log(prompt);
   await callLLM(openaiApiKey, prompt, (output) => {
+    browser.runtime.sendMessage({
+      action: "fillDataResponse",
+      data: output,
+    });
     const lines = output.split("\n");
     for (const line of lines) {
       let [name, value] = line.split("=");
@@ -111,10 +115,22 @@ ${Object.entries(inputs)
       }
     }
   });
+
+  browser.runtime.sendMessage({
+    action: "fillDataResponse",
+    done: true,
+  });
 }
 
 browser.runtime.onMessage.addListener((message) => {
   if (message.action === "fillData") {
-    fillData(message.openaiApiKey);
+    try {
+      fillData(message.openaiApiKey);
+    } catch (e) {
+      browser.runtime.sendMessage({
+        action: "fillDataResponse",
+        error: e.message,
+      });
+    }
   }
 });
