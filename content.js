@@ -3,6 +3,10 @@ if (typeof browser === "undefined") {
 }
 
 async function callLLM(openaiApiKey, prompt, callback) {
+  if (!openaiApiKey) {
+    alert("Please set your OpenAI API key");
+    return;
+  }
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
