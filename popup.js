@@ -1,3 +1,7 @@
+if (typeof browser === "undefined") {
+  var browser = chrome;
+}
+
 function bindElementToLocalStorage(element, key) {
   element.value = localStorage.getItem(key);
   element.addEventListener("input", (e) => {
@@ -5,8 +9,14 @@ function bindElementToLocalStorage(element, key) {
   });
 }
 
-bindElementToLocalStorage(document.querySelector("#openai-api-key"), "openai-api-key");
-bindElementToLocalStorage(document.querySelector("#email-domain"), "email-domain");
+bindElementToLocalStorage(
+  document.querySelector("#openai-api-key"),
+  "openai-api-key"
+);
+bindElementToLocalStorage(
+  document.querySelector("#email-domain"),
+  "email-domain"
+);
 
 document.querySelector("#run").addEventListener("click", async (e) => {
   e.target.disabled = true;
@@ -16,13 +26,10 @@ document.querySelector("#run").addEventListener("click", async (e) => {
       alert("Please set your OpenAI API key");
       return;
     }
-    browser.tabs.sendMessage(
-      tabs[0].id,
-      {
-        action: "fillData",
-        openaiApiKey,
-      }
-    );
+    browser.tabs.sendMessage(tabs[0].id, {
+      action: "fillData",
+      openaiApiKey,
+    });
   });
 });
 
