@@ -2,6 +2,23 @@ if (typeof browser === "undefined") {
   var browser = chrome;
 }
 
+// set the contents of a input[type=file] with a Blob
+function setFileContents(input, name, content) {
+  if (input.files.length > 0) {
+    console.log(input.files);
+    return;
+  }
+  const blob = new Blob([content], { type: "text/plain" });
+  const file = new File([blob], "file.txt", { type: "text/plain" });
+  const dataTransfer = new DataTransfer();
+  dataTransfer.items.add(file);
+  input.files = dataTransfer.files;
+  // trigger drop event
+  const event = new Event("drop", { bubbles: true });
+  event.dataTransfer = dataTransfer;
+  input.dispatchEvent(event);
+}
+
 async function callLLM(openaiApiKey, prompt, callback) {
   if (!openaiApiKey) {
     alert("Please set your OpenAI API key");
@@ -58,7 +75,7 @@ async function fillData(openaiApiKey) {
   document.querySelectorAll("input, textarea").forEach((input, i) => {
     let name = input.name;
     if (name === "" || !name) name = `input-${i}`;
-    if (["file", "submit", "hidden"].includes(input.type)) return;
+    if (["submit", "hidden"].includes(input.type)) return;
     inputs[name] = input;
   });
 
@@ -109,9 +126,14 @@ ${Object.entries(inputs)
         value = value.split("#")[0].trim();
         if (inputs[name].type === "email") {
           inputs[name].value = value.replace(/@.*/, `@example.com`);
+        } else if (inputs[name].type === "file") {
+          setFileContents(inputs[name], value, "Lorem ipsum dolor sit amet");
         } else {
           inputs[name].value = value.replaceAll("\\n", "\n");
         }
+        // trigger change event
+        const event = new Event("input", { bubbles: true });
+        inputs[name].dispatchEvent(event);
       }
     }
   });
